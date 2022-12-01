@@ -1,0 +1,42 @@
+# Untitled notebook
+
+## Section
+
+```elixir
+
+```
+
+```elixir
+file = Path.absname("Downloads/input-elves.txt")
+{:ok, data} = File.read(file)
+```
+
+```elixir
+sum_elve = fn elve_data ->
+  elve_data
+  |> Enum.reduce(0, fn string, acc ->
+    string
+    |> Integer.parse()
+    |> case do
+      {int, ""} -> acc + int
+      :error -> IO.inspect(string)
+    end
+  end)
+end
+```
+
+```elixir
+data
+|> String.split("\n\n")
+|> Enum.map(fn elve_data ->
+  elve_data
+  |> String.split("\n")
+  |> sum_elve.()
+end)
+|> Enum.sort()
+|> Enum.reverse()
+|> Enum.take(4)
+|> Enum.filter(fn x -> x != "" end)
+|> IO.inspect()
+|> Enum.sum()
+```
